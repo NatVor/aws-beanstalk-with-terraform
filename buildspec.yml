@@ -9,7 +9,7 @@ env:
 
 phases:
   install:
-    runtime-versions:
+    # runtime-versions:
     commands:
       - echo "Installing Terraform..."
       - curl -LO https://raw.githubusercontent.com/hashicorp/terraform/main/install.sh
