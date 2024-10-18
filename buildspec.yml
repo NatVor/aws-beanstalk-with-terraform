@@ -30,12 +30,18 @@ phases:
 
   build:
     commands:
+      - echo "Retrieving parameters from Parameter Store..."
+      - export DATASOURCE_URL=$(aws ssm get-parameter --name '/my-app/DATASOURCE_URL' --query 'Parameter.Value' --output text)
+      - export DATASOURCE_USER=$(aws ssm get-parameter --name '/my-app/DATASOURCE_USER' --with-decryption --query 'Parameter.Value' --output text)
+      - export DATASOURCE_PASSWORD=$(aws ssm get-parameter --name '/my-app/DATASOURCE_PASSWORD' --with-decryption --query 'Parameter.Value' --output text)
+      - export JDBC_DRIVER=$(aws ssm get-parameter --name '/my-app/JDBC_DRIVER' --query 'Parameter.Value' --output text)
+
       - echo "Applying Terraform configuration..."
       - terraform apply -auto-approve \
-          -var="datasource_url=$(aws ssm get-parameter --name '/my-app/DATASOURCE_URL' --query 'Parameter.Value' --output text)" \
-          -var="datasource_user=$(aws ssm get-parameter --name '/my-app/DATASOURCE_USER' --with-decryption --query 'Parameter.Value' --output text)" \
-          -var="datasource_password=$(aws ssm get-parameter --name '/my-app/DATASOURCE_PASSWORD' --with-decryption --query 'Parameter.Value' --output text)" \
-          -var="jdbc_driver=$(aws ssm get-parameter --name '/my-app/JDBC_DRIVER' --query 'Parameter.Value' --output text)"
+        -var="datasource_url=$DATASOURCE_URL" \
+        -var="datasource_user=$DATASOURCE_USER" \
+        -var="datasource_password=$DATASOURCE_PASSWORD" \
+        -var="jdbc_driver=$JDBC_DRIVER"
         
 
   post_build:
