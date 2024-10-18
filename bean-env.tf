@@ -54,11 +54,11 @@ resource "aws_elastic_beanstalk_environment" "teachua-beanstalk-env" {
     value     = "10"
   }
 
-  setting {
-    namespace = "aws:autoscaling:launchconfiguration"
-    name      = "EC2KeyName"
-    value     = aws_key_pair.teachua_app_key.key_name
-  }
+  #setting {
+  #  namespace = "aws:autoscaling:launchconfiguration"
+  #  name      = "EC2KeyName"
+  #  value     = aws_key_pair.teachua_app_key.key_name
+  #}
 
   # value     = aws_key_pair.teachua_app_key.key_name
 
