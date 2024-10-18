@@ -37,13 +37,8 @@ phases:
       - export JDBC_DRIVER=$(aws ssm get-parameter --name '/my-app/JDBC_DRIVER' --query 'Parameter.Value' --output text)
 
       - echo "Applying Terraform configuration..."
-      - terraform apply -auto-approve \
-        -var="datasource_url=$DATASOURCE_URL" \
-        -var="datasource_user=$DATASOURCE_USER" \
-        -var="datasource_password=$DATASOURCE_PASSWORD" \
-        -var="jdbc_driver=$JDBC_DRIVER"
+      - terraform apply -auto-approve -var="datasource_url=$DATASOURCE_URL" -var="datasource_user=$DATASOURCE_USER" -var="datasource_password=$DATASOURCE_PASSWORD" -var="jdbc_driver=$JDBC_DRIVER"
         
-
   post_build:
     commands:
       - echo "Deployment completed successfully!"
