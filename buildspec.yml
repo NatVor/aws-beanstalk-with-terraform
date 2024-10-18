@@ -1,0 +1,41 @@
+version: 0.2
+
+env:
+  variables:
+    JDBC_DRIVER: $(aws ssm get-parameter --name "/my-app/JDBC_DRIVER" --with-decryption --query "Parameter.Value" --output text)
+    DATASOURCE_URL: $(aws ssm get-parameter --name "/my-app/DATASOURCE_URL" --query "Parameter.Value" --output text)
+    DATASOURCE_USER: $(aws ssm get-parameter --name "/my-app/DATASOURCE_USER" --with-decryption --query "Parameter.Value" --output text)
+    DATASOURCE_PASSWORD: $(aws ssm get-parameter --name "/my-app/DATASOURCE_PASSWORD" --with-decryption --query "Parameter.Value" --output text)
+
+phases:
+  install:
+    runtime-versions:
+    commands:
+      - echo "Installing Terraform..."
+      - curl -LO https://raw.githubusercontent.com/hashicorp/terraform/main/install.sh
+      - chmod +x install.sh
+      - ./install.sh
+
+      - echo "Configuring AWS CLI..."
+      - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+      - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+      - aws configure set default.region $AWS_DEFAULT_REGION
+
+  pre_build:
+    commands:
+      - echo "Running Terraform init..."
+      - terraform init
+
+  build:
+    commands:
+      - echo "Applying Terraform configuration..."
+      - terraform apply -auto-approve
+
+  post_build:
+    commands:
+      - echo "Deployment completed successfully!"
+      - echo "You can check your Elastic Beanstalk environment in the AWS Management Console."
+
+artifacts:
+  files:
+    - terraform/** # Додає всі файли Terraform для подальшої обробки, якщо потрібно
