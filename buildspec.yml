@@ -16,7 +16,6 @@ phases:
       - sudo apt-get update && sudo apt-get install -y terraform
       - terraform_version=$(terraform -v)
       - echo "Terraform installed: $terraform_version"
-
       - echo "Configuring AWS CLI..."
       - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
       - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
