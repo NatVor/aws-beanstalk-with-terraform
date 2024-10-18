@@ -3,6 +3,7 @@ resource "aws_elastic_beanstalk_environment" "teachua-beanstalk-env" {
   application         = aws_elastic_beanstalk_application.teachua-app.name
   solution_stack_name = "64bit Amazon Linux 2023 v4.3.2 running Corretto 17"
   tier                = "WebServer"
+  # version_label       = aws_elastic_beanstalk_application_version.tf-eb-app-version.id
   cname_prefix        = "teachua-app"
 
   setting {
