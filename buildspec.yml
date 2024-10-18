@@ -30,11 +30,11 @@ phases:
       - echo "Applying Terraform configuration..."
       - terraform apply -auto-approve
 
-  # post_build:
-  #  commands:
-  #    - echo "Deployment completed successfully!"
+  post_build:
+    commands:
+      - echo "Deployment completed successfully!"
       - echo "You can check your Elastic Beanstalk environment in the AWS Management Console."
 
-artifacts:
-  files:
-    - terraform/** # Додає всі файли Terraform для подальшої обробки, якщо потрібно
+# artifacts:
+#  files:
+#    - terraform/** 
