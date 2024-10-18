@@ -15,13 +15,13 @@ variable "ZONE3" {
   default = "us-east-1c"
 }
 
-variable "PUB_KEY" {
-  default = "/home/codespace/.ssh/web02_key.pub"
-}
+#variable "PUB_KEY" {
+#  default = "/home/codespace/.ssh/web02_key.pub"
+#}
 
-variable "PRIV_KEY" {
-  default = "/home/codespace/.ssh/web02_key"
-}
+#variable "PRIV_KEY" {
+#  default = "/home/codespace/.ssh/web02_key"
+#}
 
 variable "VPC_NAME" {
   default = "teachua-vpc"
