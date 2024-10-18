@@ -6,6 +6,11 @@ env:
     DATASOURCE_URL: $(aws ssm get-parameter --name "/my-app/DATASOURCE_URL" --query "Parameter.Value" --output text)
     DATASOURCE_USER: $(aws ssm get-parameter --name "/my-app/DATASOURCE_USER" --with-decryption --query "Parameter.Value" --output text)
     DATASOURCE_PASSWORD: $(aws ssm get-parameter --name "/my-app/DATASOURCE_PASSWORD" --with-decryption --query "Parameter.Value" --output text)
+    AWS_ACCESS_KEY_ID: $(aws ssm get-parameter --name "/my-app/aws_access_key_id" --query "Parameter.Value" --output text)
+    AWS_SECRET_ACCESS_KEY: $(aws ssm get-parameter --name "/my-app/aws_secret_access_key" --with-decryption --query "Parameter.Value" --output text)
+    AWS_DEFAULT_REGION: $(aws ssm get-parameter --name "/my-app/aws_default_region" --query "Parameter.Value" --output text)
+    AWS_DEFAULT_OUTPUT: $(aws ssm get-parameter --name "/my-app/aws_default_output" --query "Parameter.Value" --output text)
+
 
 phases:
   install:
