@@ -131,69 +131,33 @@ resource "aws_elastic_beanstalk_environment" "teachua-beanstalk-env" {
     setting {
     namespace = "aws:elasticbeanstalk:application:environment"
     name      = "SERVER_PORT"
-    value     = "8080"
+    value     = "5000"
   }
 
   setting {
     namespace = "aws:elasticbeanstalk:application:environment"
     name      = "DATASOURCE_URL"
-    value     = "jdbc:mariadb://${aws_db_instance.teachua_rds.endpoint}/teachua"
-   }
+    value     = var.datasource_url
+  }
 
   setting {
     namespace = "aws:elasticbeanstalk:application:environment"
     name      = "DATASOURCE_USER"
-    value     = "user"
+    value     = var.datasource_user
   }
 
   setting {
     namespace = "aws:elasticbeanstalk:application:environment"
     name      = "DATASOURCE_PASSWORD"
-    value     = "password"
+    value     = var.datasource_password
   }
 
   setting {
     namespace = "aws:elasticbeanstalk:application:environment"
     name      = "JDBC_DRIVER"
-    value     = "org.mariadb.jdbc.Driver"
+    value     = var.jdbc_driver
   }
-
-  setting {
-    namespace = "aws:elasticbeanstalk:application:environment"
-    name      = "RDS_DB_NAME"
-    value     = "teachua"
-  }
-
-  setting {
-    namespace = "aws:elasticbeanstalk:application:environment"
-    name      = "RDS_HOSTNAME"
-    value     = "teachua-db.ctegro5wnfvo.us-east-1.rds.amazonaws.com"
-  }
-
-  setting {
-    namespace = "aws:elasticbeanstalk:application:environment"
-    name      = "RDS_PASSWORD"
-    value     = "password"
-  }
-
-  setting {
-    namespace = "aws:elasticbeanstalk:application:environment"
-    name      = "RDS_PORT"
-    value     = "3306"
-  }
-
-  setting {
-    namespace = "aws:elasticbeanstalk:application:environment"
-    name      = "RDS_USERNAME"
-    value     = "user"
-  }
-
-  setting {
-    namespace = "aws:elasticbeanstalk:application:environment"
-    name      = "JDBC_CONNECTION_STRING"
-    value     = "jdbc:mariadb://teachua-db.ctegro5wnfvo.us-east-1.rds.amazonaws.com:3306/teachua?user=username&password=password"
-  }
-
+  
   depends_on = [
     aws_security_group.teachua-beanstalk-app-elb-sg, 
     aws_security_group.teachua-beanstalk-Instance, 
@@ -201,5 +165,11 @@ resource "aws_elastic_beanstalk_environment" "teachua-beanstalk-env" {
   ]
 }
 
-
+terraform {
+  backend "s3" {
+    bucket = "teachua-bucket-new"
+    key    = "terraform.tfstate"
+    region = "us-east-1"
+  }
+}
 

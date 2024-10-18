@@ -41,25 +41,5 @@ resource "aws_db_instance" "teachua_rds" {
   parameter_group_name   = aws_db_parameter_group.teachua_param_group.name
 }
 
-resource "null_resource" "grant_privileges" {
-  depends_on = [aws_db_instance.teachua_rds]
 
-   provisioner "local-exec" {
-    command = <<EOT
-    
-    # until mysql -h ${aws_db_instance.teachua_rds.endpoint} -u user -ppassword -e "SELECT 1"; do
-    #  echo "Waiting for RDS to be available..."
-    #  sleep 60
-    # done
-    # mysql -h ${aws_db_instance.teachua_rds.endpoint} -u user -ppassword -e "GRANT ALL PRIVILEGES ON teachua.* TO 'user'@'%' WITH GRANT OPTION; FLUSH PRIVILEGES;"
-    # EOT
 
-    until mysql -h teachua-db.ctegro5wnfvo.us-east-1.rds.amazonaws.com -P 3306 -u user -ppassword -e "SELECT 1"; do
-      echo "Waiting for RDS to be available..."
-      sleep 60
-    done
-
-    mysql -h teachua-db.ctegro5wnfvo.us-east-1.rds.amazonaws.com -P 3306 -u user -ppassword -e "GRANT ALL PRIVILEGES ON teachua.* TO 'user'@'%' WITH GRANT OPTION; FLUSH PRIVILEGES;"
-    EOT
-  }
-}

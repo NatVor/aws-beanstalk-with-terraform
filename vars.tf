@@ -47,3 +47,23 @@ variable "iam_instance_profile" {
   description = "IAM Instance Profile name"
   default     = "teachua-instance-profile"
 }
+
+variable "datasource_url" {
+  description = "URL for connecting to the database"
+  type        = string
+}
+
+variable "datasource_user" {
+  description = "Database user"
+  type        = string
+}
+
+variable "datasource_password" {
+  description = "Database password"
+  type        = string
+}
+
+variable "jdbc_driver" {
+  description = "JDBC Driver"
+  type        = string
+}
