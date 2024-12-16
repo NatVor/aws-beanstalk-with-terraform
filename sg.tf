@@ -4,7 +4,7 @@ resource "aws_security_group" "teachua-beanstalk-app-elb-sg" {
   description = "Security group for beanstalk load balancer"
   vpc_id      = module.vpc.vpc_id
 
-  # Egress: Allow all outbound traffic (this is typically required for load balancers)
+  # Allow all outbound traffic
   egress {
     from_port   = 0
     to_port     = 0
@@ -12,12 +12,12 @@ resource "aws_security_group" "teachua-beanstalk-app-elb-sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  # Ingress: Allow HTTP (port 80) from any IP (public access to the load balancer)
+  # Allow HTTP (port 80) from any IP (public access to the load balancer)
   ingress {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]  # Public access, adjust based on your requirements
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   tags = {
@@ -31,15 +31,15 @@ resource "aws_security_group" "teachua-beanstalk-instance-sg" {
   description = "Security group for beanstalk EC2 instance"
   vpc_id      = module.vpc.vpc_id
 
-  # Egress: Allow all outbound traffic (adjust based on your needs)
+  # Allow all outbound traffic (adjust based on your needs)
   egress {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = ["10.0.0.0/16"]
   }
 
-  # Ingress: Allow SSH access (port 22) only from specific trusted IPs (improve security by limiting access)
+  # Allow SSH access (port 22) only from specific trusted IPs
   ingress {
     from_port   = 22
     to_port     = 22
